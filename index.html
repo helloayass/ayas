@@ -13,6 +13,11 @@
             font-family: 'Outfit', sans-serif;
         }
 
+        html, body {
+            height: 100%;
+            overflow: hidden; /* Mencegah scrolling */
+        }
+
         body {
             display: flex;
             justify-content: center;
@@ -22,8 +27,11 @@
             background-size: 400% 400%;
             animation: gradientBackground 15s ease infinite;
             color: #fff;
-            overflow: hidden;
             transition: opacity 0.5s ease-in-out;
+            position: fixed; /* Memastikan body tidak bisa di-scroll */
+            width: 100%;
+            top: 0;
+            left: 0;
         }
 
         @keyframes gradientBackground {
@@ -35,6 +43,8 @@
         .container {
             text-align: center;
             padding: 20px;
+            max-height: 100vh;
+            transform: translateY(-5%); /* Menaikkan posisi konten sedikit ke atas */
         }
 
         h1 {
@@ -152,6 +162,7 @@
             opacity: 0;
             visibility: hidden;
             transition: opacity 0.4s ease-in-out, visibility 0.4s;
+            z-index: 1000;
         }
 
         .overlay img {
@@ -173,6 +184,44 @@
             opacity: 1;
         }
 
+        /* Atur konten payment agar tidak scroll */
+        #payment {
+            max-height: 90vh;
+            overflow-y: auto;
+            scrollbar-width: thin;
+            scrollbar-color: rgba(156, 39, 176, 0.5) transparent;
+        }
+
+        #payment::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        #payment::-webkit-scrollbar-thumb {
+            background-color: rgba(156, 39, 176, 0.5);
+            border-radius: 6px;
+        }
+
+        #payment::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        /* Penyesuaian layar mobile */
+        @media (max-height: 700px) {
+            .container {
+                transform: translateY(-2%);
+            }
+
+            .profile-photo {
+                width: 120px;
+                height: 120px;
+                margin-bottom: 15px;
+            }
+
+            h1 {
+                font-size: 2rem;
+                margin-bottom: 15px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -237,6 +286,14 @@
         function closeZoom() {
             document.getElementById('qrOverlay').classList.remove('active');
         }
+
+        // Menambahkan event listener untuk mencegah scroll pada body
+        document.body.addEventListener('wheel', function(e) {
+            if(!document.getElementById('payment').contains(e.target) ||
+               document.getElementById('payment').classList.contains('hidden')) {
+                e.preventDefault();
+            }
+        }, { passive: false });
     </script>
 
 </body>
