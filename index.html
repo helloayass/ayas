@@ -57,7 +57,7 @@
 
         .subtitle {
             font-size: 1rem;
-            color: #ffb0b0;
+            color: #b0c4de;
             margin: 10px 0 20px;
         }
 
@@ -65,7 +65,7 @@
             display: inline-block;
             margin-top: 20px;
             padding: 12px 24px;
-            background: linear-gradient(135deg, #ff4d4d, #cc0000);
+            background: linear-gradient(135deg, #00ffff, #00cccc);
             color: #0f172a;
             text-decoration: none;
             border-radius: 5px;
@@ -74,7 +74,7 @@
 
         .btn:hover {
             transform: scale(1.1);
-            box-shadow: 0 0 15px rgba(255, 0, 0, 0.7);
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.7);
         }
 
         .hidden {
@@ -97,7 +97,7 @@
             padding: 15px;
             background: rgba(255, 255, 255, 0.1);
             border-radius: 10px;
-            box-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+            box-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
             margin: 20px 0;
             cursor: pointer;
             transition: transform 0.3s ease-in-out;
@@ -148,11 +148,28 @@
             opacity: 1;
         }
 
+        /* Profile photo style */
+        .profile-photo {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 20px;
+            border: 3px solid #00ffff;
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
+            transition: transform 0.3s ease;
+        }
+
+        .profile-photo:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.7);
+        }
     </style>
 </head>
 <body>
 
     <div class="container fade-in" id="about">
+        <img src="https://files.catbox.moe/mz5slv.jpg" alt="YASSxOFC Profile" class="profile-photo" id="profilePhoto">
         <h1>I'm YASSxOFC</h1>
         <div class="typing-animation">      Selamat Datang </div>
         <p class="subtitle">Jangan lupa sertakan bukti transfer</p>
@@ -172,7 +189,7 @@
 
         <div class="payment-info">
             <details>
-                <summary>E-WALLET</summary> 
+                <summary>E-WALLET</summary>
                 <p><strong>DANA</strong>: 085179836603</p>
                 <p><strong>GOPAY</strong>: 085179836603</p>
             </details>
