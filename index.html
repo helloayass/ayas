@@ -298,7 +298,6 @@
         <h1>I'm YASSxOFC</h1>
         <div class="typing-animation">      Selamat Datang </div>
         <p class="subtitle">Jangan lupa sertakan bukti transfer</p>
-
         <a href="#" class="btn" onclick="showContact()">Contact</a>
         <a href="#" class="btn" onclick="showPayment()">Go to Payment</a>
     </div>
@@ -316,8 +315,12 @@
         <div class="payment-info">
             <details>
                 <summary>E-WALLET</summary>
-                <p><strong>DANA</strong>: 085179836603 <button class="btn-pay" onclick="copyNumber(event, '085179836603', 'DANA')">DANA</button></p>
-                <p><strong>GOPAY</strong>: 085179836603 <button class="btn-pay" onclick="copyNumber(event, '085179836603', 'GOPAY')">GOPAY</button></p>
+                <p><strong>DANA</strong>: 085179836603</p>
+                <p><strong>GOPAY</strong>: 085179836603</p>
+                <div class="btn-pay-row">
+                    <button class="btn-pay" onclick="copyNumber(event, '085179836603', 'DANA')">DANA</button>
+                    <button class="btn-pay" onclick="copyNumber(event, '085179836603', 'GOPAY')">GOPAY</button>
+                </div>
             </details>
         </div>
 
@@ -343,6 +346,92 @@
     <!-- Notifikasi copy -->
     <div id="notifCopy" class="notif-copy">Nomor berhasil disalin!</div>
 
+    <style>
+        .btn-pay-row {
+            margin-top: 16px;
+            margin-bottom: 2px;
+        }
+        .btn-pay-row .btn-pay {
+            margin-left: 10px;
+            margin-right: 10px;
+            margin-top: 0;
+            margin-bottom: 0;
+        }
+        .btn-pay:first-child {
+            margin-left: 0;
+        }
+
+        /* Notifikasi Copy di atas */
+        .notif-copy {
+            position: fixed;
+            top: 35px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(70, 35, 112, 0.89);
+            color: #fff;
+            padding: 13px 32px;
+            border-radius: 50px;
+            opacity: 0;
+            z-index: 1111;
+            transition: opacity 0.4s, top 0.4s;
+            pointer-events: none;
+            font-size: 1.1em;
+            font-weight: 600;
+        }
+        .notif-copy.active {
+            opacity: 1;
+            top: 55px;
+            pointer-events:auto;
+        }
+
+        /* Custom tombol DANA & GOPAY */
+        .btn-pay {
+            background: linear-gradient(135deg, #814dde, #b347a9);
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            padding: 5px 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            font-size: 1em;
+        }
+        .btn-pay:hover {
+            background: linear-gradient(135deg, #a765e9, #c95bc7);
+            box-shadow: 0 3px 15px rgba(156,39,176,0.25);
+            transform: scale(1.05);
+        }
+        /* Overlay Contact Modal style */
+        #contactOverlay {
+            background: rgba(20,8,32,0.90);
+            justify-content: center;
+            align-items: center;
+            z-index: 1200;
+            transition: opacity 0.4s, visibility 0.4s;
+        }
+        #contactOverlay .contact-modal {
+            background: #261053ee;
+            padding: 32px 30px 26px 30px;
+            border-radius: 18px;
+            box-shadow: 0 8px 25px rgba(146,64,202,0.32);
+            min-width: 240px;
+            text-align: center;
+            animation: fadeIn 0.5s;
+            max-width: 92vw;
+        }
+        #contactOverlay .btn {
+            min-width: 110px;
+        }
+        #contactOverlay {
+            opacity: 0;
+            visibility: hidden;
+            position: fixed;
+        }
+        #contactOverlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+    </style>
     <script>
         function showPayment() {
             document.getElementById('about').classList.add('hidden');
@@ -354,12 +443,12 @@
             document.getElementById('about').classList.remove('hidden');
         }
 
+        // Overlay QR
         function zoomQR() {
             const qrImage = document.getElementById('qrisImage').src;
             document.getElementById('zoomedQR').src = qrImage;
             document.getElementById('qrOverlay').classList.add('active');
         }
-
         function closeZoom() {
             document.getElementById('qrOverlay').classList.remove('active');
         }
@@ -373,7 +462,7 @@
             document.getElementById('contactOverlay').classList.remove('active');
         }
 
-        // Copy nomor & notif
+        // Copy nomor dan notif
         function copyNumber(ev, nomor, label) {
             ev.stopPropagation();
             if (navigator.clipboard) {
@@ -381,6 +470,7 @@
                     showNotif('Nomor '+label+' berhasil disalin!');
                 });
             } else {
+                // fallback old browser
                 const textarea = document.createElement("textarea");
                 textarea.value = nomor;
                 document.body.appendChild(textarea);
@@ -397,7 +487,7 @@
             setTimeout(function(){ notif.classList.remove('active'); }, 2100);
         }
 
-        // Menambah event listener untuk mencegah scroll pada body
+        // Menambahkan event listener untuk mencegah scroll pada body
         document.body.addEventListener('wheel', function(e) {
             if(!document.getElementById('payment').contains(e.target) ||
                document.getElementById('payment').classList.contains('hidden')) {
